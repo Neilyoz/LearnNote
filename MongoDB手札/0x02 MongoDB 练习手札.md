@@ -67,10 +67,61 @@ db.users.insert([
 ])
 
 // 订单
+var user_id = db.users.findOne({username: '李寻欢'})._id
 db.orders.insertOne({
-    
+    user_id: user_id,
+    orders: ['飞刀', '小酒仙', '牛肉']
+})
+
+var user_id = db.users.findOne({username: '令狐冲'})._id
+db.orders.insertOne({
+    user_id: user_id,
+    orders: ['独孤九剑', '五粮液', '吸星大法']
 })
 ```
 
 - 多对多 （many to many）
+  - 分类 - 商品
+  - 老师 - 学生
+
+实现例子（老师 - 学生）：
+
+```javascript
+// 加入老师集合
+db.teachers.insert([
+	{
+		teacher_name: '王重阳'
+	},
+	{
+		teacher_name: '张三丰'
+	},
+	{
+		teacher_name: '扫地僧'
+	}
+])
+
+// 查询老师
+db.teachers.find()
+
+// 添加学生，一个学生可以有多个老师
+db.students.insert([
+    {
+        student_name: '学生1',
+        teacher_ids: [
+            db.teachers.findOne({teacher_name: '王重阳'})._id,
+            db.teachers.findOne({teacher_name: '张三丰'})._id
+        ]
+    },
+    {
+        student_name: '学生2',
+        teacher_ids: [
+            db.teachers.findOne({teacher_name: '王重阳'})._id,
+            db.teachers.findOne({teacher_name: '张三丰'})._id,
+            db.teachers.findOne({teacher_name: '扫地僧'})._id
+        ]
+    }
+])
+```
+
+
 
